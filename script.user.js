@@ -25,17 +25,16 @@ function main()
 
     function parseLinks(i, e)
     {
-        var href = e.getAttribute('href');
-        if (href.indexOf('http://www.youtube.com') > -1)
-        {
-            var pattern = /http:\/\/www.youtube.com\/watch\?.*?v=(.{11})/i;
-        } else if (href.indexOf('http://youtu.be') > -1) {
-            var pattern = /http:\/\/youtu.be\/(.{11})/i;
+       var href = e.getAttribute('href');
+        if (href.indexOf('//www.youtube.com/watch') > -1) {
+            var pattern = /\/\/www.youtube.com\/watch\?.*?v=(.{11})/i;
+            var result = pattern.exec(href);
+                playlist.push(result[1]);
+        } else if (href.indexOf('//youtu.be') > -1) {
+            var pattern = /\/\/youtu.be\/(.{11})/i;
+            var result = pattern.exec(href);
+                playlist.push(result[1]);
         }
-        var result = pattern.exec(href);
-
-        if (result[1])
-            playlist.push(result[1]);
     }
 
 
@@ -100,7 +99,7 @@ function main()
     function buildPlaylist()
     {
         playlist = [];
-        $('a[href^="http://www.youtube.com"]:not(".openEmbed"), a[href^="http://youtu.be"]:not(".openEmbed")').each(parseLinks);
+        $('a[href^="https://www.youtube.com"]:not(".openEmbed"), a[href^="http://www.youtube.com"]:not(".openEmbed"), a[href^="http://youtu.be"]:not(".openEmbed")').each(parseLinks);
         $('#handlePlayer').text('Odtwórz wszystkie (' + playlist.length + ').');
         if (typeof player !== "undefined")
             player.cuePlaylist(playlist);
